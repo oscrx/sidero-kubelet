@@ -1,5 +1,5 @@
 REGISTRY ?= ghcr.io
-USERNAME ?= $(GITHUB_REPOSITORY_OWNER)
+USERNAME ?= $(if $(GITHUB_REPOSITORY_OWNER),$(GITHUB_REPOSITORY_OWNER),siderolabs)
 SHA ?= $(shell git describe --match=none --always --abbrev=8 --dirty)
 TAG ?= $(shell git describe --tag --always --dirty)
 BRANCH ?= $(shell git rev-parse --abbrev-ref HEAD)
