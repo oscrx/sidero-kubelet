@@ -25,8 +25,7 @@ jobs:
       issues: read
       packages: write
       pull-requests: read
-    runs-on:
-      group: pkgs
+    runs-on: ubuntu-latest
     if: (!startsWith(github.head_ref, 'renovate/') && !startsWith(github.head_ref, 'dependabot/'))
     steps:
       - name: gather-system-info
@@ -62,12 +61,6 @@ jobs:
       - name: Set up Docker Buildx
         id: setup-buildx
         uses: docker/setup-buildx-action@e468171a9de216ec08956ac3ada2f0791b6bd435 # version: v3.11.1
-        with:
-          append: |
-            - endpoint: tcp://buildkit-arm64.ci.svc.cluster.local:1234
-              platforms: linux/arm64
-          driver: remote
-          endpoint: tcp://buildkit-amd64.ci.svc.cluster.local:1234
       - name: build
         run: |
           make
