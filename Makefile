@@ -1,11 +1,16 @@
 REGISTRY ?= ghcr.io
-USERNAME ?= oscrx
+USERNAME ?= $(GITHUB_REPOSITORY_OWNER)
 SHA ?= $(shell git describe --match=none --always --abbrev=8 --dirty)
 TAG ?= $(shell git describe --tag --always --dirty)
 BRANCH ?= $(shell git rev-parse --abbrev-ref HEAD)
 REGISTRY_AND_USERNAME := $(REGISTRY)/$(USERNAME)
 NAME := kubelet
-KUBELET_VER := v1.35.1
+
+ifeq ($(GITHUB_REF_TYPE),tag)
+	KUBELET_VER := $(GITHUB_REF_NAME)
+else
+	KUBELET_VER := v1.35.1
+endif
 
 # For kubelet versions >= 1.31.0, the slim image is the default one, and previous image is labeled as -fat.
 # For kubelet versions < 1.31.0, the fat image is the default one, and previous image is labeled as -slim.
